@@ -1,12 +1,10 @@
-import { RegisterSchemaType } from "@/lib/validations/auth";
+import { RegisterSchemaType } from '@/lib/validations/auth';
 
-export async function registerUser(
-  data: RegisterSchemaType
-) {
-  const response = await fetch("/api/register", {
-    method: "POST",
+export async function registerUser(data: RegisterSchemaType) {
+  const response = await fetch('/api/register', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
@@ -15,7 +13,7 @@ export async function registerUser(
 
   if (!response.ok) {
     console.log(result.error);
-    return
+    return;
   }
 
   return result;

@@ -1,68 +1,77 @@
-"use server"
+'use server';
 
-import { prisma } from '@/lib/prisma'
-import type {  ProductWithImages, ProductCreateInput } from '@/types'
-import type { Prisma } from '@/generated/client'
-import { revalidatePath } from 'next/cache'
+import { prisma } from '@/lib/prisma';
+import type { ProductWithImages, ProductCreateInput } from '@/types';
+import type { Prisma } from '@/generated/client';
+import { revalidatePath } from 'next/cache';
 import { Category } from '@/generated/client';
 
-
-
-
 export const getProductById = async (id: string): Promise<ProductWithImages | null> => {
-    const res = await prisma.product.findUnique({
-        include: { images: true },
-        where: {
-            id
-        }
-    })
-    return res
-}
+  const res = await prisma.product.findUnique({
+    include: { images: true },
+    where: {
+      id,
+    },
+  });
+  return res;
+};
 
 type GetProductsParams = {
   page?: number;
   search?: string;
   category?: string;
+   sort?: string;
 };
 
 const PAGE_SIZE = 10;
-export const getProducts = async ({page = 1,category,search}:GetProductsParams) => {
-    
-     const skip = (page - 1) * PAGE_SIZE;
+export const getProducts = async ({ page = 1, category, search,sort }: GetProductsParams) => {
+  const skip = (page - 1) * PAGE_SIZE;
+
+  const orderBy =
+  sort === "price-asc"
+    ? { price: "asc" as const }
+    : sort === "price-desc"
+      ? { price: "desc" as const }
+      : undefined;
 
   const [products, total] = await Promise.all([
     prisma.product.findMany({
       skip,
       take: PAGE_SIZE,
-      where:{...(search && {
-        name:{
-            contains:search,
-            mode:"insensitive"
-        }
-      }),
-    ...(category && category !== "All" &&{
-        category:category as Category
-      })},
-      
+      where: {
+        ...(search && {
+          name: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        }),
+        ...(category &&
+          category !== 'All' && {
+            category: category as Category,
+          }),
+      },
+
+      orderBy,
+
       include: {
         images: true,
       },
     }),
     prisma.product.count({
-  where: {
-    ...(search && {
-      name: {
-        contains: search,
-        mode: "insensitive",
+      where: {
+        ...(search && {
+          name: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        }),
+
+        ...(category &&
+          category !== 'All' && {
+            category: category as Category,
+          }),
       },
     }),
-
-    ...(category &&
-      category !== "All" && {
-        category: category as Category,
-      }),
-  },
-}),
   ]);
 
   return {
@@ -70,28 +79,28 @@ export const getProducts = async ({page = 1,category,search}:GetProductsParams) 
     totalPages: Math.ceil(total / PAGE_SIZE),
     currentPage: page,
   };
-}
+};
 
 export const ubsertProduct = async (product: ProductCreateInput & { id?: string }) => {
-    const { id, ...data } = product
+  const { id, ...data } = product;
 
-    let result;
-    if (id) {
-        result = await prisma.product.update({
-            where: { id },
-            data: data as Prisma.ProductUncheckedUpdateInput
-        });
-    } else {
-        result = await prisma.product.create({ data });
-    }
+  let result;
+  if (id) {
+    result = await prisma.product.update({
+      where: { id },
+      data: data as Prisma.ProductUncheckedUpdateInput,
+    });
+  } else {
+    result = await prisma.product.create({ data });
+  }
 
-    revalidatePath("/dashboard/products"); // ⚡ بعد از DB
-    return result;
-}
+  revalidatePath('/dashboard/products'); // ⚡ بعد از DB
+  return result;
+};
 
-export const deleteProducts= async(id:string)=>{
-    await prisma.product.delete({
-        where:{id}
-    })
-    revalidatePath("/dashboard/products");
-}
+export const deleteProducts = async (id: string) => {
+  await prisma.product.delete({
+    where: { id },
+  });
+  revalidatePath('/dashboard/products');
+};

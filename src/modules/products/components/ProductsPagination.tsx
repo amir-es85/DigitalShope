@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 import {
   Pagination,
   PaginationContent,
@@ -6,26 +6,20 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-
+} from '@/components/ui/pagination';
 
 type Props = {
   currentPage: number;
   totalPages: number;
 };
 
-export default function ProductsPagination({
-  currentPage,
-  totalPages,
-}: Props) {
+export default function ProductsPagination({ currentPage, totalPages }: Props) {
   return (
     <Pagination>
       <PaginationContent>
         {currentPage > 1 && (
           <PaginationItem>
-            <PaginationPrevious
-              href={`?page=${currentPage - 1}`}
-            />
+            <PaginationPrevious href={`?page=${currentPage - 1}`} />
           </PaginationItem>
         )}
 
@@ -34,20 +28,16 @@ export default function ProductsPagination({
 
           return (
             <PaginationItem key={page}>
-  <PaginationLink asChild isActive={page === currentPage}>
-    <Link href={`?page=${page}`}>
-      {page}
-    </Link>
-  </PaginationLink>
-</PaginationItem>
+              <PaginationLink asChild isActive={page === currentPage}>
+                <Link href={`?page=${page}`}>{page}</Link>
+              </PaginationLink>
+            </PaginationItem>
           );
         })}
 
         {currentPage < totalPages && (
           <PaginationItem>
-            <PaginationNext
-              href={`?page=${currentPage + 1}`}
-            />
+            <PaginationNext href={`?page=${currentPage + 1}`} />
           </PaginationItem>
         )}
       </PaginationContent>

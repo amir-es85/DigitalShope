@@ -1,10 +1,11 @@
-
 import ProductDashbordViews from './../../../../modules/products/views/ProductDashbordViews';
 
 function DashbordProductPage() {
   return (
-    <div><ProductDashbordViews /></div>
-  )
+    <div>
+      <ProductDashbordViews />
+    </div>
+  );
 }
 
-export default DashbordProductPage
+export default DashbordProductPage;

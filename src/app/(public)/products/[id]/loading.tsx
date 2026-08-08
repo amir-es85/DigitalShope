@@ -1,5 +1,4 @@
-import { Loader2 } from "lucide-react"
-
+import { Loader2 } from 'lucide-react';
 
 function Loading() {
   return (
@@ -7,7 +6,7 @@ function Loading() {
       <span className="font-bold text-xl">Please Wait ...</span>
       <Loader2 size={48} className="text-9xl animate-spin" />
     </div>
-  )
+  );
 }
 
-export default Loading
+export default Loading;

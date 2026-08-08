@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css'
+import './globals.css';
 import Header from './../components/ui/header';
 
 import ReactQueryProvider from './../provider/ReactQuery';
-
 
 // const geistSans = Geist({
 //   variable: '--font-geist-sans',
@@ -27,17 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    
-      <ReactQueryProvider>
-        <html lang="en">
-          <body>
-
-            <Header />
-            <div className='pt-25 px-5 md:max-w-6xl md:px-0 mx-auto'> {children}</div>
-
-          </body>
-        </html>
-      </ReactQueryProvider>
-    
+    <ReactQueryProvider>
+      <html lang="en">
+        <body>
+          <Header />
+          <div className="pt-25 px-5 md:max-w-6xl md:px-0 mx-auto"> {children}</div>
+        </body>
+      </html>
+    </ReactQueryProvider>
   );
 }

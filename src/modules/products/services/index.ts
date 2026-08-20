@@ -81,9 +81,7 @@ export const getProducts = async ({ page = 1, category, search, sort }: GetProdu
   };
 };
 
-export const ubsertProduct = async (
-  product: ProductCreateInput & { id?: string }
-) => {
+export const ubsertProduct = async (product: ProductCreateInput & { id?: string }) => {
   try {
     const { id, ...data } = product;
 
@@ -104,9 +102,7 @@ export const ubsertProduct = async (
 
     return {
       success: true,
-      message: id
-        ? 'Product updated successfully'
-        : 'Product created successfully',
+      message: id ? 'Product updated successfully' : 'Product created successfully',
       data: result,
     };
   } catch (error) {

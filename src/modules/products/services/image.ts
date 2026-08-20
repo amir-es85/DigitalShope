@@ -10,9 +10,7 @@ export const uplodimage = async (formdata: FormData) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(
-        data.message || data.error || 'Failed to upload image'
-      );
+      throw new Error(data.message || data.error || 'Failed to upload image');
     }
 
     toast.success('Image uploaded successfully');
@@ -21,11 +19,7 @@ export const uplodimage = async (formdata: FormData) => {
   } catch (error) {
     console.error('UPLOAD IMAGE ERROR:', error);
 
-    toast.error(
-      error instanceof Error
-        ? error.message
-        : 'Failed to upload image'
-    );
+    toast.error(error instanceof Error ? error.message : 'Failed to upload image');
 
     throw error;
   }
@@ -38,9 +32,7 @@ export const fetchproductimages = async (id: string) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(
-        data.message || data.error || 'Failed to fetch images'
-      );
+      throw new Error(data.message || data.error || 'Failed to fetch images');
     }
 
     return data.data;
@@ -60,9 +52,7 @@ export const deletedimage = async (imageid: string) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(
-        data.message || data.error || 'Failed to delete image'
-      );
+      throw new Error(data.message || data.error || 'Failed to delete image');
     }
 
     toast.success('Image deleted successfully');
@@ -71,11 +61,7 @@ export const deletedimage = async (imageid: string) => {
   } catch (error) {
     console.error('DELETE IMAGE ERROR:', error);
 
-    toast.error(
-      error instanceof Error
-        ? error.message
-        : 'Failed to delete image'
-    );
+    toast.error(error instanceof Error ? error.message : 'Failed to delete image');
 
     throw error;
   }

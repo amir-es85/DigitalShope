@@ -28,25 +28,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-  <body>
-    <ReactQueryProvider>
-      <ThemeProvider>
-        <Header />
+      <body>
+        <ReactQueryProvider>
+          <ThemeProvider>
+            <Header />
 
-        <div className="pt-25 px-5 md:max-w-6xl md:px-0 mx-auto">
-          {children}
-        </div>
+            <div className="pt-25 px-5 md:max-w-6xl md:px-0 mx-auto">{children}</div>
 
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          newestOnTop
-          closeOnClick
-          pauseOnHover
-        />
-      </ThemeProvider>
-    </ReactQueryProvider>
-  </body>
-</html>
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              newestOnTop
+              closeOnClick
+              pauseOnHover
+            />
+          </ThemeProvider>
+        </ReactQueryProvider>
+      </body>
+    </html>
   );
 }

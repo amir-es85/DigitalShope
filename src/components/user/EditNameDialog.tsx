@@ -33,13 +33,13 @@ export default function EditNameDialog({ open, onOpenChange, session }: Props) {
   const onSubmit = async (data: EditNameSchemaType) => {
     const result = await updateNameAction(data);
 
-  if (result.success) {
-    toast.success(result.message);
-    router.refresh();
-    onOpenChange(false);
-  } else {
-    toast.error(result.message);
-  }
+    if (result.success) {
+      toast.success(result.message);
+      router.refresh();
+      onOpenChange(false);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   return (

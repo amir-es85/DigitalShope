@@ -47,9 +47,7 @@ function ProductForm({ product }: Props) {
   const onsubmit = async (data: FormProduct) => {
     const parsedPrice = parseFloat(data.price?.toString() || '0');
 
-    const parsedQuantity = parseInt(
-      data.quantity?.toString() || '0'
-    );
+    const parsedQuantity = parseInt(data.quantity?.toString() || '0');
 
     const category = data.category || product?.category;
 
@@ -76,18 +74,12 @@ function ProductForm({ product }: Props) {
         <CardHeader>
           <CardTitle>Product</CardTitle>
 
-          <CardDescription>
-            {product?.id
-              ? 'Edit Product'
-              : 'Create New Product'}
-          </CardDescription>
+          <CardDescription>{product?.id ? 'Edit Product' : 'Create New Product'}</CardDescription>
         </CardHeader>
 
         <CardContent>
           <div className="mb-2.5">
-            <Label className="mb-1">
-              Product Name
-            </Label>
+            <Label className="mb-1">Product Name</Label>
 
             <Input
               defaultValue={product?.name || ''}
@@ -97,47 +89,28 @@ function ProductForm({ product }: Props) {
               className="h-8"
             />
 
-            {errors.name && (
-              <p className="pt-1 text-red-500">
-                {errors.name.message}
-              </p>
-            )}
+            {errors.name && <p className="pt-1 text-red-500">{errors.name.message}</p>}
           </div>
 
           <div className="mb-2.5">
-            <Label className="mb-1">
-              Category
-            </Label>
+            <Label className="mb-1">Category</Label>
 
             <Controller
               name="category"
               control={control}
-              defaultValue={
-                product?.category || Category.Tablet
-              }
+              defaultValue={product?.category || Category.Tablet}
               render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger className="h-8 w-full">
-                    <SelectValue
-                      placeholder="Select Category"
-                      className="h-8"
-                    />
+                    <SelectValue placeholder="Select Category" className="h-8" />
                   </SelectTrigger>
 
                   <SelectContent>
-                    {Object.values(Category).map(
-                      (category) => (
-                        <SelectItem
-                          key={category}
-                          value={category}
-                        >
-                          {category}
-                        </SelectItem>
-                      )
-                    )}
+                    {Object.values(Category).map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               )}
@@ -145,9 +118,7 @@ function ProductForm({ product }: Props) {
           </div>
 
           <div className="mb-2.5">
-            <Label className="mb-1">
-              Description
-            </Label>
+            <Label className="mb-1">Description</Label>
 
             <Textarea
               defaultValue={product?.description || ''}
@@ -158,28 +129,18 @@ function ProductForm({ product }: Props) {
             />
 
             {errors.description && (
-              <p className="pt-1 text-red-500">
-                {errors.description.message}
-              </p>
+              <p className="pt-1 text-red-500">{errors.description.message}</p>
             )}
           </div>
 
           <div className="mb-2.5">
-            <Label className="mb-1">
-              Price
-            </Label>
+            <Label className="mb-1">Price</Label>
 
-            <Input
-              defaultValue={product?.price || ''}
-              {...register('price')}
-              className="h-8"
-            />
+            <Input defaultValue={product?.price || ''} {...register('price')} className="h-8" />
           </div>
 
           <div className="mb-2.5">
-            <Label className="mb-1">
-              Quantity
-            </Label>
+            <Label className="mb-1">Quantity</Label>
 
             <Input
               defaultValue={product?.quantity || ''}
@@ -190,20 +151,11 @@ function ProductForm({ product }: Props) {
 
           <CardFooter className="mt-2 flex justify-between">
             <Button variant="outline" asChild>
-              <Link href="/dashbord/products">
-                Back
-              </Link>
+              <Link href="/dashbord/products">Back</Link>
             </Button>
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting
-                ? 'Saving...'
-                : product?.id
-                  ? 'Update Product'
-                  : 'Create Product'}
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving...' : product?.id ? 'Update Product' : 'Create Product'}
             </Button>
           </CardFooter>
 

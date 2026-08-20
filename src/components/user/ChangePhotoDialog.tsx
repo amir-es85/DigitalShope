@@ -23,13 +23,13 @@ export default function ChangePhotoDialog({ open, onOpenChange }: Props) {
   async function submit(formData: FormData) {
     const result = await updateImageAction(formData);
 
-if (result.success) {
-  toast.success(result.message);
-  router.refresh();
-  onOpenChange(false);
-} else {
-  toast.error(result.message);
-}
+    if (result.success) {
+      toast.success(result.message);
+      router.refresh();
+      onOpenChange(false);
+    } else {
+      toast.error(result.message);
+    }
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

@@ -18,11 +18,7 @@ export default function ThemeToggle() {
       className="h-9 w-9 rounded-full border-border bg-background shadow-sm transition-all duration-300 hover:scale-105 hover:bg-muted active:scale-95"
       aria-label="Toggle theme"
     >
-      {isDark ? (
-        <Sun className="h-4 w-4" />
-      ) : (
-        <Moon className="h-4 w-4" />
-      )}
+      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </Button>
   );
 }

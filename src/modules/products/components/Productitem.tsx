@@ -29,7 +29,6 @@ function Productitem(props: { product: ProductWithImages }) {
         <div className="flex justify-between items-center">
           <p className="mt-3 font-semibold text-lg">{(product.price ?? 0).toFixed(2)}</p>
           <div className="flex gap-2">
-            
             <Link href={`/products/catalog?id=${product.id}`}>
               <GalleryThumbnails />
             </Link>

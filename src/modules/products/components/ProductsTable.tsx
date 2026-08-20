@@ -22,14 +22,14 @@ type ProductsTableprop = {
 function ProductsTable(props: ProductsTableprop) {
   const { products } = props;
   const handeldelete = async (id: string) => {
-  const result = await deleteProducts(id);
+    const result = await deleteProducts(id);
 
-  if (result.success) {
-    toast.success(result.message);
-  } else {
-    toast.error(result.message);
-  }
-};
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  };
   return (
     <div className="border border-gray-200 rounded-lg shadow-md mt-4">
       <div className="flex justify-between items-center p-4 bg-gray-100">

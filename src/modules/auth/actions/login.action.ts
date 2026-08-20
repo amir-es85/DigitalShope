@@ -27,10 +27,7 @@ export async function loginAction(data: LoginSchemaType) {
 
     return {
       success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : 'Failed to login',
+      message: error instanceof Error ? error.message : 'Failed to login',
     };
   }
 }

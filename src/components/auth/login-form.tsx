@@ -19,14 +19,13 @@ export default function LoginForm() {
   async function onSubmit(data: LoginSchemaType) {
     const result = await loginAction(data);
 
-  if (result.success) {
-    toast.success(result.message);
-    router.push('/products');
-  router.refresh();
-    
-  } else {
-    toast.error(result.message);
-  }
+    if (result.success) {
+      toast.success(result.message);
+      router.push('/products');
+      router.refresh();
+    } else {
+      toast.error(result.message);
+    }
   }
 
   return (

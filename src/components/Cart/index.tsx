@@ -1,28 +1,19 @@
-"use client";
+'use client';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
-import { useCart } from "@/hooks/useCart";
-import { CartWithProduct } from "@/types";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { ShoppingCart, Minus, Plus, Trash2 } from 'lucide-react';
+import { useCart } from '@/hooks/useCart';
+import { CartWithProduct } from '@/types';
 
 function DropDown() {
-  const {
-    removecart,
-    updateQuantity,
-    cart,
-    isLoading,
-  } = useCart();
+  const { removecart, updateQuantity, cart, isLoading } = useCart();
 
   const totalPrice =
-  cart?.reduce(
-    (total:number, item:CartWithProduct) => total + item.product.price * item.quantity,
-    0
-  ) ?? 0;
+    cart?.reduce(
+      (total: number, item: CartWithProduct) => total + item.product.price * item.quantity,
+      0
+    ) ?? 0;
 
   return (
     <DropdownMenu>
@@ -39,33 +30,20 @@ function DropDown() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-80 p-4">
-        <h4 className="mb-4 text-lg font-semibold">
-          Cart Items
-        </h4>
+        <h4 className="mb-4 text-lg font-semibold">Cart Items</h4>
 
         {isLoading ? (
-          <p className="text-sm text-gray-500">
-            Loading...
-          </p>
+          <p className="text-sm text-gray-500">Loading...</p>
         ) : !cart || cart.length === 0 ? (
-          <p className="text-sm text-gray-500">
-            Your cart is empty
-          </p>
+          <p className="text-sm text-gray-500">Your cart is empty</p>
         ) : (
           <div className="space-y-4">
             {cart.map((item: CartWithProduct) => (
-              <div
-                key={item.product.id}
-                className="border-b pb-4 last:border-b-0"
-              >
+              <div key={item.product.id} className="border-b pb-4 last:border-b-0">
                 <div className="mb-3">
-                  <p className="text-sm font-medium">
-                    {item.product.name}
-                  </p>
+                  <p className="text-sm font-medium">{item.product.name}</p>
 
-                  <p className="text-sm text-gray-500">
-                    ${item.product.price?.toFixed(2)}
-                  </p>
+                  <p className="text-sm text-gray-500">${item.product.price?.toFixed(2)}</p>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -74,23 +52,18 @@ function DropDown() {
                       variant="outline"
                       size="icon"
                       className="h-8 w-8"
-                      disabled={
-                        item.quantity <= 1 ||
-                        updateQuantity.isPending
-                      }
+                      disabled={item.quantity <= 1 || updateQuantity.isPending}
                       onClick={() =>
                         updateQuantity.mutate({
                           productid: item.product.id,
-                          action: "decrease",
+                          action: 'decrease',
                         })
                       }
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
 
-                    <span className="w-8 text-center text-sm font-medium">
-                      {item.quantity}
-                    </span>
+                    <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
 
                     <Button
                       variant="outline"
@@ -100,7 +73,7 @@ function DropDown() {
                       onClick={() =>
                         updateQuantity.mutate({
                           productid: item.product.id,
-                          action: "increase",
+                          action: 'increase',
                         })
                       }
                     >
@@ -113,9 +86,7 @@ function DropDown() {
                     size="icon"
                     className="h-8 w-8 text-red-500 hover:text-red-600"
                     disabled={removecart.isPending}
-                    onClick={() =>
-                      removecart.mutate(item.product.id)
-                    }
+                    onClick={() => removecart.mutate(item.product.id)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -123,18 +94,15 @@ function DropDown() {
               </div>
             ))}
           </div>
-
         )}
 
         <div className="mt-4 border-t pt-4">
-  <div className="flex items-center justify-between">
-    <span className="font-medium">Total</span>
+          <div className="flex items-center justify-between">
+            <span className="font-medium">Total</span>
 
-    <span className="text-lg font-bold">
-      ${totalPrice.toFixed(2)}
-    </span>
-  </div>
-</div>
+            <span className="text-lg font-bold">${totalPrice.toFixed(2)}</span>
+          </div>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

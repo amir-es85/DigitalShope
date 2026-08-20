@@ -46,11 +46,7 @@ export const useCart = () => {
       if (!res.ok) {
         const error = await res.json();
 
-        throw new Error(
-          error.message ||
-            error.error ||
-            'Failed to add product to cart'
-        );
+        throw new Error(error.message || error.error || 'Failed to add product to cart');
       }
 
       return res.json();
@@ -95,31 +91,22 @@ export const useCart = () => {
       if (!res.ok) {
         const error = await res.json();
 
-        throw new Error(
-          error.message ||
-            error.error ||
-            'Failed to update quantity'
-        );
+        throw new Error(error.message || error.error || 'Failed to update quantity');
       }
 
       return res.json();
     },
 
     onMutate: ({ productid, action }) => {
-      queryClient.setQueryData<CartWithProduct[]>(
-        ['cart'],
-        (cart) =>
-          cart?.map((item) =>
-            item.product.id === productid
-              ? {
-                  ...item,
-                  quantity:
-                    action === 'increase'
-                      ? item.quantity + 1
-                      : item.quantity - 1,
-                }
-              : item
-          )
+      queryClient.setQueryData<CartWithProduct[]>(['cart'], (cart) =>
+        cart?.map((item) =>
+          item.product.id === productid
+            ? {
+                ...item,
+                quantity: action === 'increase' ? item.quantity + 1 : item.quantity - 1,
+              }
+            : item
+        )
       );
     },
 
@@ -153,11 +140,7 @@ export const useCart = () => {
       if (!res.ok) {
         const error = await res.json();
 
-        throw new Error(
-          error.message ||
-            error.error ||
-            'Failed to remove product from cart'
-        );
+        throw new Error(error.message || error.error || 'Failed to remove product from cart');
       }
 
       return res.json();

@@ -28,10 +28,7 @@ export async function registerAction(data: RegisterSchemaType) {
 
     return {
       success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : 'Failed to create account',
+      message: error instanceof Error ? error.message : 'Failed to create account',
     };
   }
 }

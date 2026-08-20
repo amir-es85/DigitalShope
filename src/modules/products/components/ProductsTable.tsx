@@ -14,15 +14,22 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ProductWithImages } from '@/types';
 import { deleteProducts } from '../services';
+import { toast } from 'react-toastify';
 
 type ProductsTableprop = {
   products: ProductWithImages[];
 };
 function ProductsTable(props: ProductsTableprop) {
   const { products } = props;
-  const handeldelete = (id: string) => {
-    deleteProducts(id);
-  };
+  const handeldelete = async (id: string) => {
+  const result = await deleteProducts(id);
+
+  if (result.success) {
+    toast.success(result.message);
+  } else {
+    toast.error(result.message);
+  }
+};
   return (
     <div className="border border-gray-200 rounded-lg shadow-md mt-4">
       <div className="flex justify-between items-center p-4 bg-gray-100">

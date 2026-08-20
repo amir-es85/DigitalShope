@@ -5,10 +5,8 @@ import { useUrlParams } from './useUrlParams';
 
 export function useProductFilters() {
   const { params, push } = useUrlParams();
-  
 
   const setCategory = (category: string) => {
-
     if (category === 'All') {
       params.delete('category');
     } else {
@@ -17,7 +15,7 @@ export function useProductFilters() {
 
     params.set('page', '1');
 
-    push()
+    push();
   };
 
   return {

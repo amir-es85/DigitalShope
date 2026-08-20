@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { updateImageAction } from '@/modules/user/action/update-image.action';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 type Props = {
   open: boolean;
@@ -20,11 +21,15 @@ type Props = {
 export default function ChangePhotoDialog({ open, onOpenChange }: Props) {
   const router = useRouter();
   async function submit(formData: FormData) {
-    await updateImageAction(formData);
+    const result = await updateImageAction(formData);
 
-    router.refresh();
-
-    onOpenChange(false);
+if (result.success) {
+  toast.success(result.message);
+  router.refresh();
+  onOpenChange(false);
+} else {
+  toast.error(result.message);
+}
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

@@ -12,9 +12,10 @@ export async function POST(req: NextRequest) {
   if (!id || !file) {
     return NextResponse.json(
       {
-        error: 'no',
-      },
-      { status: 400 }
+    success: false,
+    message: 'Product ID and image file are required',
+  },
+  { status: 400 }
     );
   } else {
     const bytes = await file.arrayBuffer();
@@ -34,9 +35,10 @@ export async function POST(req: NextRequest) {
       include: { images: true },
     });
     return NextResponse.json({
-      data: updateproduct,
-      Message: 'yes',
-    });
+  success: true,
+  message: 'Product image uploaded successfully',
+  data: updateproduct,
+});
   }
 }
 export async function GET(req: NextRequest) {
@@ -44,17 +46,22 @@ export async function GET(req: NextRequest) {
   const productid = searchParams.get('productid');
   if (!productid) {
     return NextResponse.json(
-      {
-        error: 'not',
-      },
-      { status: 400 }
+       {
+    success: false,
+    message: 'Product ID is required',
+  },
+  { status: 400 }
     );
   } else {
     const images = await prisma.image.findMany({
       where: { productid: productid },
     });
     revalidatePath(`/dashbord/products/${productid}`);
-    return NextResponse.json(images);
+    return NextResponse.json({
+  success: true,
+  message: 'Product images fetched successfully',
+  data: images,
+});
   }
 }
 export async function DELETE(req: NextRequest) {
@@ -62,12 +69,19 @@ export async function DELETE(req: NextRequest) {
   const imageid = searchParams.get('imageid');
   if (!imageid)
     return NextResponse.json(
-      {
-        error: 'no image id',
-      },
-      { status: 400 }
+       {
+    success: false,
+    message: 'Image ID is required',
+  },
+  { status: 400 }
     );
   const image = await prisma.image.delete({
     where: { id: imageid },
   });
+
+  return NextResponse.json({
+  success: true,
+  message: 'Product image deleted successfully',
+  data: image,
+});
 }

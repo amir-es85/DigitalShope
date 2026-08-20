@@ -1,8 +1,10 @@
 'use client';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+
 import {
   Card,
   CardContent,
@@ -11,6 +13,7 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card';
+
 import {
   Select,
   SelectContent,
@@ -18,107 +21,192 @@ import {
   SelectValue,
   SelectItem,
 } from '@/components/ui/select';
+
 import { Product, ProductWithImages } from '@/types';
 import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 import { ubsertProduct } from '../services';
 import UploadeImage from './UploadeImage';
 import { Category } from '@/generated/client';
+import { toast } from 'react-toastify';
 
 type FormProduct = Omit<Product, 'id'>;
 
-function ProductForm(prop: { product: ProductWithImages | null }) {
-  const { product } = prop;
+type Props = {
+  product: ProductWithImages | null;
+};
+
+function ProductForm({ product }: Props) {
   const {
     handleSubmit,
     register,
-    setValue,
     control,
     formState: { errors, isSubmitting },
   } = useForm<FormProduct>();
-  const onsubmit = (data: FormProduct) => {
+
+  const onsubmit = async (data: FormProduct) => {
     const parsedPrice = parseFloat(data.price?.toString() || '0');
-    const parsedQuantity = parseInt(data.quantity?.toString() || '0');
-    const category = data?.category || product?.category;
+
+    const parsedQuantity = parseInt(
+      data.quantity?.toString() || '0'
+    );
+
+    const category = data.category || product?.category;
 
     const _product = {
       id: product?.id,
       ...data,
       price: parsedPrice,
       quantity: parsedQuantity,
-      category: category,
+      category,
     };
-    ubsertProduct(_product);
+
+    const result = await ubsertProduct(_product);
+
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
   };
+
   return (
-    <Card className="max-w-lg mx-auto">
-      <form className="" onSubmit={handleSubmit(onsubmit)}>
+    <Card>
+      <form onSubmit={handleSubmit(onsubmit)}>
         <CardHeader>
-          <CardTitle className="font-bold text-xl">Product</CardTitle>
-          <CardDescription>Create New Products</CardDescription>
+          <CardTitle>Product</CardTitle>
+
+          <CardDescription>
+            {product?.id
+              ? 'Edit Product'
+              : 'Create New Product'}
+          </CardDescription>
         </CardHeader>
+
         <CardContent>
-          <div className="mb-2.5 mt-2.5">
-            <Label className="mb-1">Product Name</Label>
+          <div className="mb-2.5">
+            <Label className="mb-1">
+              Product Name
+            </Label>
+
             <Input
               defaultValue={product?.name || ''}
-              {...register('name', { required: 'name is requred' })}
+              {...register('name', {
+                required: 'Name is required',
+              })}
               className="h-8"
             />
-            {errors.name && <p className="text-red-500 pt-1">{errors.name.message}</p>}
+
+            {errors.name && (
+              <p className="pt-1 text-red-500">
+                {errors.name.message}
+              </p>
+            )}
           </div>
 
           <div className="mb-2.5">
-            <Label className="mb-1"> Category</Label>
+            <Label className="mb-1">
+              Category
+            </Label>
+
             <Controller
               name="category"
               control={control}
-              defaultValue={product?.category || Category.Tablet}
+              defaultValue={
+                product?.category || Category.Tablet
+              }
               render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className="w-full h-8">
-                    <SelectValue placeholder="Select Category" className="h-8" />
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <SelectTrigger className="h-8 w-full">
+                    <SelectValue
+                      placeholder="Select Category"
+                      className="h-8"
+                    />
                   </SelectTrigger>
+
                   <SelectContent>
-                    {Object.values(Category).map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
+                    {Object.values(Category).map(
+                      (category) => (
+                        <SelectItem
+                          key={category}
+                          value={category}
+                        >
+                          {category}
+                        </SelectItem>
+                      )
+                    )}
                   </SelectContent>
                 </Select>
               )}
             />
           </div>
+
           <div className="mb-2.5">
-            <Label className="mb-1"> Description</Label>
+            <Label className="mb-1">
+              Description
+            </Label>
+
             <Textarea
               defaultValue={product?.description || ''}
-              {...register('description', { required: 'Description is required' })}
+              {...register('description', {
+                required: 'Description is required',
+              })}
               className="h-8"
             />
+
             {errors.description && (
-              <p className="text-red-500 pt-1">{errors.description.message}</p>
+              <p className="pt-1 text-red-500">
+                {errors.description.message}
+              </p>
             )}
           </div>
+
           <div className="mb-2.5">
-            <Label className="mb-1"> Price</Label>
-            <Input defaultValue={product?.price || ''} {...register('price')} className="h-8" />
+            <Label className="mb-1">
+              Price
+            </Label>
+
+            <Input
+              defaultValue={product?.price || ''}
+              {...register('price')}
+              className="h-8"
+            />
           </div>
+
           <div className="mb-2.5">
-            <Label className="mb-1"> Quantity</Label>
+            <Label className="mb-1">
+              Quantity
+            </Label>
+
             <Input
               defaultValue={product?.quantity || ''}
               {...register('quantity')}
               className="h-8"
             />
           </div>
-          <CardFooter className="flex justify-between mt-2">
+
+          <CardFooter className="mt-2 flex justify-between">
             <Button variant="outline" asChild>
-              <Link href="/dashbord/products">Back</Link>
+              <Link href="/dashbord/products">
+                Back
+              </Link>
             </Button>
-            <Button type="submit">{product?.id ? 'Update Product' : 'Create Product'}</Button>
+
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting
+                ? 'Saving...'
+                : product?.id
+                  ? 'Update Product'
+                  : 'Create Product'}
+            </Button>
           </CardFooter>
+
           {product?.id && (
             <CardFooter className="mt-6">
               <UploadeImage id={product.id} />

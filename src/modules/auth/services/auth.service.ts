@@ -12,8 +12,7 @@ export async function registerUser(data: RegisterSchemaType) {
   const result = await response.json();
 
   if (!response.ok) {
-    console.log(result.error);
-    return;
+    throw new Error(result.message);
   }
 
   return result;

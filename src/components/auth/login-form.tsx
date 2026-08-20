@@ -6,15 +6,27 @@ import { LoginSchema, LoginSchemaType } from '@/lib/validations/auth';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { loginAction } from '@/modules/auth/actions/login.action';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  const router = useRouter();
   const { register, handleSubmit, formState } = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     mode: 'onChange',
   });
 
   async function onSubmit(data: LoginSchemaType) {
-    await loginAction(data);
+    const result = await loginAction(data);
+
+  if (result.success) {
+    toast.success(result.message);
+    router.push('/products');
+  router.refresh();
+    
+  } else {
+    toast.error(result.message);
+  }
   }
 
   return (

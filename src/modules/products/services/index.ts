@@ -20,19 +20,19 @@ type GetProductsParams = {
   page?: number;
   search?: string;
   category?: string;
-   sort?: string;
+  sort?: string;
 };
 
 const PAGE_SIZE = 10;
-export const getProducts = async ({ page = 1, category, search,sort }: GetProductsParams) => {
+export const getProducts = async ({ page = 1, category, search, sort }: GetProductsParams) => {
   const skip = (page - 1) * PAGE_SIZE;
 
   const orderBy =
-  sort === "price-asc"
-    ? { price: "asc" as const }
-    : sort === "price-desc"
-      ? { price: "desc" as const }
-      : undefined;
+    sort === 'price-asc'
+      ? { price: 'asc' as const }
+      : sort === 'price-desc'
+        ? { price: 'desc' as const }
+        : undefined;
 
   const [products, total] = await Promise.all([
     prisma.product.findMany({
@@ -81,26 +81,62 @@ export const getProducts = async ({ page = 1, category, search,sort }: GetProduc
   };
 };
 
-export const ubsertProduct = async (product: ProductCreateInput & { id?: string }) => {
-  const { id, ...data } = product;
+export const ubsertProduct = async (
+  product: ProductCreateInput & { id?: string }
+) => {
+  try {
+    const { id, ...data } = product;
 
-  let result;
-  if (id) {
-    result = await prisma.product.update({
-      where: { id },
-      data: data as Prisma.ProductUncheckedUpdateInput,
-    });
-  } else {
-    result = await prisma.product.create({ data });
+    let result;
+
+    if (id) {
+      result = await prisma.product.update({
+        where: { id },
+        data: data as Prisma.ProductUncheckedUpdateInput,
+      });
+    } else {
+      result = await prisma.product.create({
+        data,
+      });
+    }
+
+    revalidatePath('/dashboard/products');
+
+    return {
+      success: true,
+      message: id
+        ? 'Product updated successfully'
+        : 'Product created successfully',
+      data: result,
+    };
+  } catch (error) {
+    console.error('Error in ubsertProduct:', error);
+
+    return {
+      success: false,
+      message: 'Failed to save product',
+    };
   }
-
-  revalidatePath('/dashboard/products'); // ⚡ بعد از DB
-  return result;
 };
 
 export const deleteProducts = async (id: string) => {
-  await prisma.product.delete({
-    where: { id },
-  });
-  revalidatePath('/dashboard/products');
+  try {
+    await prisma.product.delete({
+      where: { id },
+    });
+
+    revalidatePath('/dashboard/products');
+
+    return {
+      success: true,
+      message: 'Product deleted successfully',
+    };
+  } catch (error) {
+    console.error('Error in deleteProducts:', error);
+
+    return {
+      success: false,
+      message: 'Failed to delete product',
+    };
+  }
 };

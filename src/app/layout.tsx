@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Header from './../components/ui/header';
-
 import ReactQueryProvider from './../provider/ReactQuery';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from './../provider/ThemeProvider';
 
 // const geistSans = Geist({
 //   variable: '--font-geist-sans',
@@ -26,13 +27,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <html lang="en" suppressHydrationWarning>
+  <body>
     <ReactQueryProvider>
-      <html lang="en">
-        <body>
-          <Header />
-          <div className="pt-25 px-5 md:max-w-6xl md:px-0 mx-auto"> {children}</div>
-        </body>
-      </html>
+      <ThemeProvider>
+        <Header />
+
+        <div className="pt-25 px-5 md:max-w-6xl md:px-0 mx-auto">
+          {children}
+        </div>
+
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+        />
+      </ThemeProvider>
     </ReactQueryProvider>
+  </body>
+</html>
   );
 }

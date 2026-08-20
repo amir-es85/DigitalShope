@@ -6,15 +6,26 @@ import { RegisterSchema, RegisterSchemaType } from '@/lib/validations/auth';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { registerAction } from '../../modules/auth/actions/register.action';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
+  const router = useRouter();
   const { register, handleSubmit, formState } = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     mode: 'onChange',
   });
 
   async function onSubmit(data: RegisterSchemaType) {
-    await registerAction(data);
+    const result = await registerAction(data);
+
+if (result.success) {
+  toast.success(result.message);
+  router.push('/products');
+  router.refresh();
+} else {
+  toast.error(result.message);
+}
   }
 
   return (

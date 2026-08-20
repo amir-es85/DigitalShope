@@ -11,6 +11,7 @@ import { Input } from '../ui/input';
 import { updateNameAction } from '@/modules/user/services/update-name.service';
 import { useRouter } from 'next/navigation';
 import { User } from '@/types';
+import { toast } from 'react-toastify';
 
 type Props = {
   session: Session;
@@ -30,13 +31,15 @@ export default function EditNameDialog({ open, onOpenChange, session }: Props) {
   });
 
   const onSubmit = async (data: EditNameSchemaType) => {
-    try {
-      await updateNameAction(data);
-      router.refresh();
-      onOpenChange(false);
-    } catch (error) {
-      console.error(error);
-    }
+    const result = await updateNameAction(data);
+
+  if (result.success) {
+    toast.success(result.message);
+    router.refresh();
+    onOpenChange(false);
+  } else {
+    toast.error(result.message);
+  }
   };
 
   return (

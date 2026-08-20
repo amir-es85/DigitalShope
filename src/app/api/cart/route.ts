@@ -81,26 +81,17 @@ export async function PATCH(req: NextRequest) {
     const userid = session?.user?.id;
 
     if (!userid) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { productid, action } = await req.json();
 
     if (!productid || !action) {
-      return NextResponse.json(
-        { error: "productid and action are required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'productid and action are required' }, { status: 400 });
     }
 
-    if (action !== "increase" && action !== "decrease") {
-      return NextResponse.json(
-        { error: "Invalid action" },
-        { status: 400 }
-      );
+    if (action !== 'increase' && action !== 'decrease') {
+      return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
 
     const cartItem = await prisma.cart.findFirst({
@@ -111,13 +102,10 @@ export async function PATCH(req: NextRequest) {
     });
 
     if (!cartItem) {
-      return NextResponse.json(
-        { error: "Cart item does not exist" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Cart item does not exist' }, { status: 404 });
     }
 
-    if (action === "increase") {
+    if (action === 'increase') {
       const updatedItem = await prisma.cart.update({
         where: {
           id: cartItem.id,
@@ -133,10 +121,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (cartItem.quantity === 1) {
-      return NextResponse.json(
-        { error: "Quantity cannot be less than 1" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Quantity cannot be less than 1' }, { status: 400 });
     }
 
     const updatedItem = await prisma.cart.update({
@@ -152,11 +137,8 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(updatedItem);
   } catch (error) {
-    console.error("Error in PATCH /api/cart:", error);
+    console.error('Error in PATCH /api/cart:', error);
 
-    return NextResponse.json(
-      { error: "Failed to update cart" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to update cart' }, { status: 500 });
   }
 }

@@ -10,7 +10,7 @@ type Props = {
     page?: string;
     search?: string;
     category?: string;
-     sort?: string;
+    sort?: string;
   }>;
 };
 
@@ -20,27 +20,24 @@ async function Page({ searchParams }: Props) {
   const page = Number(params.page ?? '1');
   const search = params.search ?? '';
   const category = params.category ?? 'All';
-  const sort = params.sort ?? "default";
-  const { products, totalPages, currentPage } = await getProducts({ page, search, category, sort});
+  const sort = params.sort ?? 'default';
+  const { products, totalPages, currentPage } = await getProducts({ page, search, category, sort });
 
   return (
-    <div className="space-y-8">
-  <div className="flex flex-col gap-3 rounded-xl  bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
-    <ProductSearch />
+    <div className="space-y-8 mb-2">
+      <div className="flex flex-col gap-3 rounded-xl   p-4 sm:flex-row sm:items-center sm:justify-between">
+        <ProductSearch />
 
-    <div className="flex flex-col gap-3 sm:flex-row">
-      <CategoryFilter />
-      <ProductSort />
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <CategoryFilter />
+          <ProductSort />
+        </div>
+      </div>
+
+      <ProductList products={products} />
+
+      <ProductsPagination currentPage={currentPage} totalPages={totalPages} />
     </div>
-  </div>
-
-  <ProductList products={products} />
-
-  <ProductsPagination
-    currentPage={currentPage}
-    totalPages={totalPages}
-  />
-</div>
   );
 }
 

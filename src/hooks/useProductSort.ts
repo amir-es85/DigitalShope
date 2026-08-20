@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useUrlParams } from "./useUrlParams";
+import { useUrlParams } from './useUrlParams';
 
 export function useProductSort() {
-  const { params, push,searchParams } = useUrlParams();
-  const currentSort = searchParams.get("sort") ?? "default";
+  const { params, push, searchParams } = useUrlParams();
+  const currentSort = searchParams.get('sort') ?? 'default';
 
   const setSort = (sort: string) => {
-    if (sort === "default") {
-      params.delete("sort");
+    if (sort === 'default') {
+      params.delete('sort');
     } else {
-      params.set("sort", sort);
+      params.set('sort', sort);
     }
 
-    params.set("page", "1");
+    params.set('page', '1');
 
     push();
   };
 
   return {
     setSort,
-    currentSort
+    currentSort,
   };
 }

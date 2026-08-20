@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export function useUrlParams() {
   const router = useRouter();
@@ -15,6 +15,6 @@ export function useUrlParams() {
   return {
     params,
     push,
-    searchParams
+    searchParams,
   };
 }

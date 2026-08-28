@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { fetchproductimages } from '@/modules/products/services/image';
 import { TImage } from '@/types';
 import Spinner from '../spiner';
-import { product } from '@/generated/prisma';
 
 function CatalogList() {
   const searchparams = useSearchParams();

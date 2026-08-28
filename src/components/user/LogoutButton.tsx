@@ -7,7 +7,7 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 export default function LogoutButton() {
   return (
-    <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/auth' })}>
+    <DropdownMenuItem onClick={() => signOut({ callbackUrl: 'https://digitalshope.onrender.com/auth' })}>
       <LogOut className="h-4 w-4" />
       Sign Out
     </DropdownMenuItem>

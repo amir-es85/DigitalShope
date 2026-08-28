@@ -25,7 +25,7 @@ import {
 import { Product, ProductWithImages } from '@/types';
 import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
-import { ubsertProduct } from '../services';
+import { ubsertProduct } from '../services/actions';
 import UploadeImage from './UploadeImage';
 import { Category } from '@/generated/client';
 import { toast } from 'react-toastify';

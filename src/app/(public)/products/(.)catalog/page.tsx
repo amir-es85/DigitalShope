@@ -1,9 +1,12 @@
+import { Suspense } from 'react';
 import CatalogList from './../../../../components/Catalog/CatalogList';
 
 function Page() {
   return (
     <div>
-      <CatalogList />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CatalogList />
+      </Suspense>
     </div>
   );
 }

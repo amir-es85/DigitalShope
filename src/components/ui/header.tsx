@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle';
 
 async function Header() {
   const session = await auth();
-  const user = session?.user.id
+  const user = session?.user?.id
     ? await prisma.user.findUnique({
         where: {
           id: session.user.id,

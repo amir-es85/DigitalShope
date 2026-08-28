@@ -13,7 +13,7 @@ import { Edit, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ProductWithImages } from '@/types';
-import { deleteProducts } from '../services';
+import { deleteProducts } from '../services/actions';
 import { toast } from 'react-toastify';
 
 type ProductsTableprop = {

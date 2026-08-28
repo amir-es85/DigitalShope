@@ -1,7 +1,12 @@
 // src/lib/prisma.ts
+import dns from 'node:dns';
 import { PrismaClient } from '@/generated/client';
 import { withAccelerate } from '@prisma/extension-accelerate';
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Prisma Accelerate (prisma-data.net) has IPv6 AAAA records, but IPv6 often
+// fails on this network (ENOENT / ETIMEDOUT). Prefer IPv4 so fetch succeeds.
+dns.setDefaultResultOrder('ipv4first');
 
 declare global {
   // eslint-disable-next-line no-var

@@ -1,11 +1,11 @@
-import { getProducts } from '../services';
+import { getDashboardProducts } from '../services';
 import ProductsTable from './../components/ProductsTable';
 
 async function ProductDashbordViews() {
-  const prodacts = await getProducts({});
+  const products = await getDashboardProducts();
   return (
     <div>
-      <ProductsTable products={prodacts.products} />
+      <ProductsTable products={products} />
     </div>
   );
 }

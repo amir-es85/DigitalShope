@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import './globals.css';
 import Header from './../components/ui/header';
 import ReactQueryProvider from './../provider/ReactQuery';
@@ -31,7 +32,9 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
           <ThemeProvider>
-            <Header />
+            <Suspense fallback={null}>
+              <Header />
+            </Suspense>
 
             <div className="pt-25 px-5 md:max-w-6xl md:px-0 mx-auto">{children}</div>
 

@@ -34,12 +34,7 @@ type GetProductsParams = {
 
 const PAGE_SIZE = 10;
 
-export const getProducts = async ({
-  page = 1,
-  category,
-  search,
-  sort,
-}: GetProductsParams) => {
+export const getProducts = async ({ page = 1, category, search, sort }: GetProductsParams) => {
   'use cache';
   cacheLife('hours');
   cacheTag('products');

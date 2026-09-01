@@ -27,7 +27,7 @@ function Productitem(props: { product: ProductWithImages }) {
         <h2 className="font-bold text-lg md:text-xl">{product.name}</h2>
         <p className="text-gray-500 ">{product.category}</p>
         <div className="flex justify-between items-center">
-          <p className="mt-3 font-medium text-base md:text-lg">{(product.price ?? 0)}</p>
+          <p className="mt-3 font-medium text-base md:text-lg">{product.price ?? 0}</p>
           <div className="flex gap-1">
             <Link href={`/products/catalog?id=${product.id}`}>
               <GalleryThumbnails />

@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
-import { Heart, GalleryThumbnails } from 'lucide-react';
+import { Heart, GalleryThumbnails, Images } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import type { ProductWithImages } from '@/types';
@@ -27,7 +27,7 @@ function Productitem(props: { product: ProductWithImages }) {
         <h2 className="font-bold text-lg md:text-xl">{product.name}</h2>
         <p className="text-gray-500 ">{product.category}</p>
         <div className="flex justify-between items-center">
-          <p className="mt-3 font-medium text-base md:text-lg">
+          <p className="mt-3 font-semibold text-base md:text-lg">
             {new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: 'USD',
@@ -36,7 +36,7 @@ function Productitem(props: { product: ProductWithImages }) {
           </p>
           <div className="flex gap-1">
             <Link href={`/products/catalog?id=${product.id}`}>
-              <GalleryThumbnails />
+              <Images className="h-4 w-4" />
             </Link>
           </div>
         </div>

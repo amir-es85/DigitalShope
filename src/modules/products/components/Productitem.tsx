@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
-import { Heart, GalleryThumbnails, Images } from 'lucide-react';
+import { Heart, GalleryThumbnails, Images, ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import type { ProductWithImages } from '@/types';
@@ -36,7 +36,7 @@ function Productitem(props: { product: ProductWithImages }) {
           </p>
           <div className="flex gap-1">
             <Link href={`/products/catalog?id=${product.id}`}>
-              <Images className="h-4 w-4" />
+              <ImageIcon />
             </Link>
           </div>
         </div>
